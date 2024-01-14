@@ -7,6 +7,7 @@ import com.example.pokedex.services.HTTPRequestExtraction;
 import com.example.pokedex.services.SqlDataExtraction;
 import com.example.pokedex.utilities.ConsoleOutputUtility;
 import com.example.pokedex.utilities.OutputFormat;
+import com.example.pokedex.views.PokemonView;
 import org.apache.commons.cli.*;
 
 public class Pokedex {
@@ -48,20 +49,24 @@ public class Pokedex {
 
         /* View as required */
         //TODO implementar visualizacion requerida segun el input de visualizacion dado en el input
-
+        PokemonView pokemonView = new PokemonView();
+        pokemonView.setPokemon(pokemonController.getPokemon());
+        if (dataSource==DataSource.LOCAL_DATABASE){
+            pokemonView.setDescriptionRequired(true);
+        }
         /*
            Demo of the command line parsing result, you have access to these static attributes, remove
            this block of code in your application.
          */
 
-        System.out.println("Database source : " + dataSource);
-        System.out.println("Database file path : " + databasePath);
-        System.out.println("Output format : " + outputFormat);
-        System.out.println("Pokemon ID : " + pokemonController.getPokemon().getPokemonid());
-        System.out.println("Pokemon name : " + pokemonController.getPokemon().getPokemonName());
-        System.out.println("Pokemon height : " + pokemonController.getPokemon().getHeigth());
-        System.out.println("Pokemon weight : " + pokemonController.getPokemon().getWeigth());
-        System.out.println("Pokemon description : " + pokemonController.getPokemon().getDescription());
+//        System.out.println("Database source : " + dataSource);
+//        System.out.println("Database file path : " + databasePath);
+//        System.out.println("Output format : " + outputFormat);
+//        System.out.println("Pokemon ID : " + pokemonController.getPokemon().getPokemonid());
+//        System.out.println("Pokemon name : " + pokemonController.getPokemon().getPokemonName());
+//        System.out.println("Pokemon height : " + pokemonController.getPokemon().getHeigth());
+//        System.out.println("Pokemon weight : " + pokemonController.getPokemon().getWeigth());
+//        System.out.println("Pokemon description : " + pokemonController.getPokemon().getDescription());
         /*
             Demo of using a web API and a local SQLite database, remove this block of code in your
             application
@@ -71,7 +76,8 @@ public class Pokedex {
 
 
         // Uncomment this when you are at part 3 of the assignment
-        //ConsoleOutputUtility consoleOutputUtility = new ConsoleOutputUtility(outputFormat, /* PokemonView instance */);
+        ConsoleOutputUtility consoleOutputUtility = new ConsoleOutputUtility(outputFormat, pokemonView  /* PokemonView instance */);
+        consoleOutputUtility.makeOutput();
     }
 
     public static void parseCommandLineArguments(String[] args) throws PokemonCommandLineParsingException, ParseException {
